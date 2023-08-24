@@ -32,5 +32,5 @@ app.listen(PORT, () => {
 
 // 404 Page
 app.get('*', (req, res) => {
-  res.render('NotFound')
+  res.render('404 NotFound')
 })
