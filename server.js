@@ -8,6 +8,7 @@ const app = express()
 
 // MIDDLEWARE
 app.use(express.static('public'))
+app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jsx')
@@ -32,5 +33,5 @@ app.listen(PORT, () => {
 
 // 404 Page
 app.get('*', (req, res) => {
-  res.render('404 NotFound')
+  res.render('notFound')
 })
