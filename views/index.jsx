@@ -12,6 +12,7 @@ function Index ({breads, title})  {
     </div>
 
   <ul>
+  {console.log(breads)}
   {
     breads.map((bread, index)=> {
       return (
