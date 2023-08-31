@@ -32,18 +32,14 @@ breads.get('/:id/edit', (req, res) => {
 // SHOW
 breads.get('/:id', (req, res) => {
   Bread.findById(req.params.id)
-    .then(foundBread => {
-      res.render('show', {
-        bread: foundBread
+      .then(foundBread => {
+        const bakedBy = foundBread.getBakedBy() 
+        console.log(bakedBy)
+        res.render('show', {
+            bread: foundBread
+        })
       })
     })
-    .catch(err => {
-      res.send('404')
-    })
-})
-
-
-  
 
 // CREATE
 breads.post('/', (req, res) => {
@@ -61,9 +57,16 @@ breads.post('/', (req, res) => {
 
 // DELETE
 breads.delete('/:id', (req, res) => {
-  Bread.splice(req.params.id, 1)
-  res.status(303).redirect('/breads')
-})
+  Bread.findByIdAndDelete(req.params.id)
+    .then(() => {
+      res.status(303).redirect('/breads');
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).send('Error deleting bread');
+    });
+});
+
 
 // UPDATE
 breads.put('/:id', (req, res) => {
