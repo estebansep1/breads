@@ -1,6 +1,8 @@
 const express = require('express')
 const breads = express.Router()
 const Bread = require('../models/models/bread.js')
+const breadSeed = require('../seeds/bread-seed.js')
+
 
 // INDEX
 breads.get('/', (req, res) => {
@@ -81,6 +83,14 @@ breads.put('/:id', (req, res) => {
       res.redirect(`/breads/${req.params.id}`) 
     })
 })
+
+breads.get('/data/seed', (req, res) => {
+  Bread.insertMany(breadSeed)
+  .then(createdBreads => {
+      res.redirect('/breads')
+    })
+})
+
 
 
 module.exports = breads 
