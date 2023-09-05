@@ -27,7 +27,6 @@ function New () {
             <option value="Ross">Ross</option>
             <option value="Phoebe">Phoebe</option>
           </select>
-
           <label htmlFor="hasGluten">Has Gluten?</label>
           <input
             type="checkbox"

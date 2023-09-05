@@ -85,8 +85,7 @@ breads.put('/:id', (req, res) => {
 })
 
 breads.get('/data/seed', (req, res) => {
-  Bread.insertMany(breadSeed)
-  .then(createdBreads => {
+  Bread.insertMany(breadSeed).then(createdBreads => {
       res.redirect('/breads')
     })
 })
