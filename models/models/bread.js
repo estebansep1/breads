@@ -9,7 +9,7 @@ const breadSchema = new Schema({
     hasGluten: Boolean,
     image: { type: String, default: 'http://placehold.it/500x500.png' },
     baker: {
-      type: Schema.Types.ObjectID,
+      type: Schema.Types.ObjectId,
       ref: 'Baker'
     }
 })
