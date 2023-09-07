@@ -8,7 +8,9 @@ const breadSeed = require('../seeds/bread-seed.js')
 // INDEX
 breads.get('/', (req, res) => {
   Bread.find()
+      .populate('baker')
       .then(foundBreads => {
+        console.log('Found bread:', foundBreads)
           res.render('index', {
               breads: foundBreads,
               title: 'Index Page'
@@ -27,27 +29,53 @@ breads.get('/new', (req, res) => {
   })
 })
 
-// EDIT
-breads.get('/:id/edit', (req, res) => {
-  Bread.findById(req.params.id) 
-    .then(foundBread => { 
-      res.render('edit', {
-        bread: foundBread 
-      })
-    })
-})
 
 // SHOW
 breads.get('/:id', (req, res) => {
   Bread.findById(req.params.id)
+      .populate('baker')
       .then(foundBread => {
+        console.log('Found bread:', foundBread)
         const bakedBy = foundBread.getBakedBy() 
         console.log(bakedBy)
         res.render('show', {
             bread: foundBread
         })
       })
+      .catch(err => {
+        res.render('notFound')
+      })
     })
+
+// EDIT
+breads.get('/:id/edit', (req, res) => {
+  Baker.find()
+    .then(foundBakers => {
+        Bread.findById(req.params.id)
+          .then(foundBread => {
+            res.render('edit', {
+                bread: foundBread, 
+                bakers: foundBakers 
+            })
+          })
+    })
+})
+
+
+// UPDATE
+breads.put('/:id', (req, res) => {
+  if(req.body.hasGluten === 'on'){
+    req.body.hasGluten = true
+  } else {
+    req.body.hasGluten = false
+  }
+  Bread.findByIdAndUpdate(req.params.id, req.body, { new: true }) 
+    .then(updatedBread => {
+      console.log(updatedBread) 
+      res.redirect(`/breads/${req.params.id}`) 
+    })
+})
+
 
 // CREATE
 breads.post('/', (req, res) => {
@@ -76,26 +104,11 @@ breads.delete('/:id', (req, res) => {
 });
 
 
-// UPDATE
-breads.put('/:id', (req, res) => {
-  if(req.body.hasGluten === 'on'){
-    req.body.hasGluten = true
-  } else {
-    req.body.hasGluten = false
-  }
-  Bread.findByIdAndUpdate(req.params.id, req.body, { new: true }) 
-    .then(updatedBread => {
-      console.log(updatedBread) 
-      res.redirect(`/breads/${req.params.id}`) 
-    })
-})
-
+// SEED ROUTE
 breads.get('/data/seed', (req, res) => {
   Bread.insertMany(breadSeed).then(createdBreads => {
       res.redirect('/breads')
     })
 })
-
-
 
 module.exports = breads 
