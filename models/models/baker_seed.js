@@ -1,9 +1,9 @@
 module.exports = [
-    {
-      name: 'Monica',
-      startDate: '1994-09-22',
-      bio: 'Prefers napkins folded a particular way.'
-    },
+  {
+    name: 'Monica',
+    startDate: '1994-09-22',
+    bio: 'Prefers napkins folded a particular way.'
+  },
     {
       name: 'Ross',
       startDate: '1995-09-21',

@@ -5,17 +5,19 @@ const Baker = require('../models/models/baker.js')
 const breadSeed = require('../seeds/bread-seed.js')
 
 
-// INDEX
+// Index:
 breads.get('/', (req, res) => {
-  Bread.find()
-      .populate('baker')
+  Baker.find()
+    .then(foundBakers => {
+      Bread.find()
       .then(foundBreads => {
-        console.log('Found bread:', foundBreads)
           res.render('index', {
               breads: foundBreads,
+              bakers: foundBakers,
               title: 'Index Page'
           })
       })
+    })
 })
 
 
